@@ -54,8 +54,6 @@ O Java e a DLL precisam ter a mesma arquitetura (64 bits na raiz; 32 bits em `Bi
 
 ## Autores
 
-*(preencher em ordem alfabética)*
-
-- Ana Beatriz Souza
-- Carlos Henrique Pereira
-- Marcos Vinicius Almeida
+- Beatriz Mota dos Santos
+- Isabel Rocha Batista
+- Nicole Gonzales de Lima
