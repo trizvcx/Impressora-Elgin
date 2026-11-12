@@ -87,7 +87,7 @@ public class Main {
         }
     }
 
-    // Login com no máximo 3 tentativas
+    // Pede usuário e senha, no máximo 3 tentativas
     private static boolean fazerLogin() {
         for (int tentativa = 1; tentativa <= 3; tentativa++) {
             String login = capturarEntrada("Usuário: ");
@@ -108,6 +108,7 @@ public class Main {
         return false;
     }
 
+    // Guarda tipo, modelo, porta e parâmetro da impressora
     public static void configurarConexao() {
         tipo = lerInteiro("Tipo de conexão (1=USB, 2=Serial, 3=Rede, 4=Bluetooth): ");
         modelo = capturarEntrada("Modelo da impressora (i8 ou i9): ");
@@ -130,6 +131,7 @@ public class Main {
         }
     }
 
+    // Fecha a conexão e marca conexaoAberta como false
     public static void fecharConexao() {
         if (!conexaoAberta) {
             System.out.println("Conexão já está fechada.");
@@ -145,6 +147,7 @@ public class Main {
         }
     }
 
+    // Imprime o texto informado, repetindo pela quantidade de cópias
     public static void imprimirTexto() {
         if (!conexaoAberta) {
             System.out.println("Conexão fechada. Abra a conexão antes (opção 2).");
@@ -164,6 +167,7 @@ public class Main {
         ImpressoraDLL.INSTANCE.Corte(5);
     }
 
+    // Pergunta o conteúdo e imprime o QR Code
     public static void imprimirQRCode() {
         if (!conexaoAberta) {
             System.out.println("Conexão fechada. Abra a conexão antes (opção 2).");
@@ -180,6 +184,7 @@ public class Main {
         }
     }
 
+    // Imprime um código de barras CODE 128
     public static void imprimirCodigoBarras() {
         if (!conexaoAberta) {
             System.out.println("Conexão fechada. Abra a conexão antes (opção 2).");
@@ -195,6 +200,7 @@ public class Main {
         }
     }
 
+    // Lê o XML SAT informado e imprime o cupom
     public static void imprimirXMLSAT() {
         if (!conexaoAberta) {
             System.out.println("Conexão fechada. Abra a conexão antes (opção 2).");
@@ -215,6 +221,7 @@ public class Main {
         }
     }
 
+    // Lê o XML de cancelamento e imprime usando a chave ASS_QRCODE
     public static void imprimirXMLCancelamentoSAT() {
         if (!conexaoAberta) {
             System.out.println("Conexão fechada. Abra a conexão antes (opção 2).");
@@ -235,6 +242,7 @@ public class Main {
         }
     }
 
+    // Abre a gaveta de dinheiro
     public static void abrirGaveta() {
         if (!conexaoAberta) {
             System.out.println("Conexão fechada. Abra a conexão antes (opção 2).");
@@ -249,6 +257,7 @@ public class Main {
         }
     }
 
+    // Pergunta quantos bips e faz a impressora apitar
     public static void sinalSonoro() {
         if (!conexaoAberta) {
             System.out.println("Conexão fechada. Abra a conexão antes (opção 2).");
@@ -264,6 +273,7 @@ public class Main {
         }
     }
 
+    // Pergunta quantas linhas e avança o papel
     public static void avancarPapel() {
         if (!conexaoAberta) {
             System.out.println("Conexão fechada. Abra a conexão antes (opção 2).");
@@ -278,7 +288,7 @@ public class Main {
             System.out.println("Erro ao avançar papel. Código: " + retorno);
         }
     }
-
+// Exibe o menu de opções
     public static void exibirMenu() {
         System.out.println("\n*************************************************");
         System.out.println("**************** MENU IMPRESSORA ****************");
@@ -299,11 +309,13 @@ public class Main {
     }
 
     public static void main(String[] args) {
+        // Se errar o login 3 vezes, encerra sem abrir o menu
         if (!fazerLogin()) {
             scanner.close();
             return;
         }
 
+        // Repete o menu até o usuário escolher 0
         int opcao = -1;
         while (opcao != 0) {
             exibirMenu();
