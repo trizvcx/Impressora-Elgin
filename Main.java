@@ -56,6 +56,7 @@ public class Main {
     // Nomes dos arquivos XML de teste (ficam na raiz do projeto)
     private static final String ARQUIVO_XML_SAT = "XMLSAT.xml";
     private static final String ARQUIVO_XML_CANCELAMENTO = "CANC_SAT.xml";
+    // Chave usada no cancelamento do XML SAT
     private static final String ASS_QRCODE = "Q5DLkpdRijIRGY6YSSNsTWK1TztHL1vD0V1Jc4spo/CEUqICEb9SFy82ym8EhBRZjbh3btsZhF+sjHqEMR159i4agru9x6KsepK/q0E2e5xlU5cv3m1woYfgHyOkWDNcSdMsS6bBh2Bpq6s89yJ9Q6qh/J8YHi306ce9Tqb/drKvN2XdE5noRSS32TAWuaQEVd7u+TrvXlOQsE3fHR1D5f1saUwQLPSdIv01NF6Ny7jZwjCwv1uNDgGZONJdlTJ6p0ccqnZvuE70aHOI09elpjEO6Cd+orI7XHHrFCwhFhAcbalc+ZfO5b/+vkyAHS6CYVFCDtYR9Hi5qgdk31v23w==";
     // true quando a impressora está conectada
     private static boolean conexaoAberta = false;
@@ -296,7 +297,7 @@ public class Main {
         // 4) retorno 0 = sucesso
         if (retorno == 0) {
             System.out.println("XML de cancelamento SAT impresso com sucesso.");
-            // 5) corta o papel (era isso que faltava)
+            // 5) corta o papel 
             int retornoCorte = ImpressoraDLL.INSTANCE.Corte(5);
             if (retornoCorte != 0) {
                 System.out.println("Erro ao cortar o papel. Código: " + retornoCorte);
