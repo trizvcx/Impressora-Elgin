@@ -53,6 +53,9 @@ public class Main {
     // Login e senha corretos do programa
     private static final String USUARIO = "admin";
     private static final String SENHA = "1234";
+    // Nomes dos arquivos XML de teste (ficam na raiz do projeto)
+    private static final String ARQUIVO_XML_SAT = "XMLSAT.xml";
+    private static final String ARQUIVO_XML_CANCELAMENTO = "CANC_SAT.xml";
     private static final String ASS_QRCODE = "Q5DLkpdRijIRGY6YSSNsTWK1TztHL1vD0V1Jc4spo/CEUqICEb9SFy82ym8EhBRZjbh3btsZhF+sjHqEMR159i4agru9x6KsepK/q0E2e5xlU5cv3m1woYfgHyOkWDNcSdMsS6bBh2Bpq6s89yJ9Q6qh/J8YHi306ce9Tqb/drKvN2XdE5noRSS32TAWuaQEVd7u+TrvXlOQsE3fHR1D5f1saUwQLPSdIv01NF6Ny7jZwjCwv1uNDgGZONJdlTJ6p0ccqnZvuE70aHOI09elpjEO6Cd+orI7XHHrFCwhFhAcbalc+ZfO5b/+vkyAHS6CYVFCDtYR9Hi5qgdk31v23w==";
     // true quando a impressora está conectada
     private static boolean conexaoAberta = false;
@@ -241,53 +244,63 @@ public class Main {
         }
     }
 
-    // Lê o XML SAT informado e imprime o cupom
+    // Lê o XMLSAT.xml e imprime o cupom (sem pedir o nome do arquivo)
     public static void imprimirXMLSAT() {
-        // confere se a conexão está aberta
+        // 1) confere se a conexão está aberta
         if (!conexaoAberta) {
             System.out.println("Conexão fechada. Abra a conexão antes (opção 2).");
             return;
         }
 
-        // pergunta o que precisa ao usuário
-        String nome = capturarEntrada("Nome do arquivo XML SAT (ex.: XMLSAT.xml): ");
-        String xml = lerArquivo(nome);
-        // arquivo não encontrado: a mensagem já foi mostrada em lerArquivo
+        // 2) mostra qual arquivo será usado e lê o conteúdo
+        System.out.println("Usando o arquivo: " + ARQUIVO_XML_SAT);
+        String xml = lerArquivo(ARQUIVO_XML_SAT);
+        // null = arquivo não encontrado (o aviso já foi mostrado)
         if (xml == null) {
             return;
         }
 
-        // chama o comando e guarda o retorno
+        // 3) chama o comando e guarda o retorno
         int retorno = ImpressoraDLL.INSTANCE.ImprimeXMLSAT(xml, 0);
-        // confere o retorno (0 = sucesso)
+        // 4) retorno 0 = sucesso
         if (retorno == 0) {
             System.out.println("XML SAT impresso com sucesso.");
+            // corta o papel e confere o retorno
+            int retornoCorte = ImpressoraDLL.INSTANCE.Corte(5);
+            if (retornoCorte != 0) {
+                System.out.println("Erro ao cortar o papel. Código: " + retornoCorte);
+            }
         } else {
             System.out.println("Erro ao imprimir XML SAT. Código: " + retorno);
         }
     }
 
-    // Lê o XML de cancelamento e imprime usando a chave ASS_QRCODE
+    // Lê o CANC_SAT.xml e imprime o cancelamento usando a chave ASS_QRCODE
     public static void imprimirXMLCancelamentoSAT() {
-        // confere se a conexão está aberta
+        // 1) confere se a conexão está aberta
         if (!conexaoAberta) {
             System.out.println("Conexão fechada. Abra a conexão antes (opção 2).");
             return;
         }
 
-        // pergunta o que precisa ao usuário
-        String nome = capturarEntrada("Nome do arquivo XML de cancelamento (ex.: CANC_SAT.xml): ");
-        String xml = lerArquivo(nome);
-        // arquivo não encontrado: a mensagem já foi mostrada em lerArquivo
+        // 2) mostra qual arquivo será usado e lê o conteúdo
+        System.out.println("Usando o arquivo: " + ARQUIVO_XML_CANCELAMENTO);
+        String xml = lerArquivo(ARQUIVO_XML_CANCELAMENTO);
+        // null = arquivo não encontrado (o aviso já foi mostrado)
         if (xml == null) {
             return;
         }
 
-        // chama o comando e guarda o retorno
+        // 3) chama o comando com a chave ASS_QRCODE e guarda o retorno
         int retorno = ImpressoraDLL.INSTANCE.ImprimeXMLCancelamentoSAT(xml, ASS_QRCODE, 0);
-        // confere o retorno (0 = sucesso)
+        // 4) retorno 0 = sucesso
         if (retorno == 0) {
             System.out.println("XML de cancelamento SAT impresso com sucesso.");
+            // 5) corta o papel (era isso que faltava)
+            int retornoCorte = ImpressoraDLL.INSTANCE.Corte(5);
+            if (retornoCorte != 0) {
+                System.out.println("Erro ao cortar o papel. Código: " + retornoCorte);
+            }
         } else {
             System.out.println("Erro ao imprimir XML de cancelamento SAT. Código: " + retorno);
         }
