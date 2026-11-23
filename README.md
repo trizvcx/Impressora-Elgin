@@ -48,9 +48,9 @@ O Java e a DLL precisam ter a mesma arquitetura (64 bits na raiz; 32 bits em `Bi
 
 ## Tecnologias
 
-- Java 11+
+- Java 25+
 - JNA 5.15.0
-- SDK Elgin (`E1_Impressora01.dll`)
+- SDK Elgin (`E1_Impressora01.dll`) https://elgindevelopercommunity.github.io/group___m1.html#ga928f0795631b062f8d5c8c20b9681d8d
 
 ## Autores
 
