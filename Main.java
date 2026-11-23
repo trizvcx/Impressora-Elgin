@@ -163,8 +163,18 @@ public class Main {
         }
     }
 
-    // Imprime o texto informado, repetindo pela quantidade de cópias
-    public static void imprimirTexto() {
+
+   // Imprime o texto informado, repetindo pela quantidade de cópias
+public static void imprimirTexto() {
+    // confere se a conexão está aberta
+    if (!conexaoAberta) {
+        System.out.println("Conexão fechada. Abra a conexão antes (opção 2).");
+        return;
+    }
+
+    // pergunta o que precisa ao usuário
+    String texto = capturarEntrada("Texto a imprimir: ");
+    int copias = lerInteiro("Quantidade de cópias: ");
 
     // se for 0 ou negativo, não imprime nem corta o papel
     if (copias <= 0) {
@@ -174,12 +184,9 @@ public class Main {
 
     // repete pela quantidade de cópias
     for (int i = 1; i <= copias; i++) {
-
-        // chama o comando de impressão e guarda o retorno
-        // (troque o último parâmetro pelo "tamanho" que você já usava)
+        // chama o comando e guarda o retorno
         int retorno = ImpressoraDLL.INSTANCE.ImpressaoTexto(texto, 1, 4, 0);
-
-        // ImpressaoTexto só dá erro se o retorno for negativo
+        // ImpressaoTexto só dá erro se for negativo
         if (retorno >= 0) {
             System.out.println("Cópia " + i + " impressa!");
         } else {
@@ -187,18 +194,14 @@ public class Main {
             break; // se deu erro, não adianta continuar as outras cópias
         }
 
-        // corta o papel a cada cópia (agora DENTRO do for)
-        // isso faz a impressora descarregar o buffer e imprimir cada via separada
+        // corta o papel a cada cópia (dentro do for) e confere o retorno
         int retornoCorte = ImpressoraDLL.INSTANCE.Corte(5);
-
-        // Corte retorna 0 quando deu certo
         if (retornoCorte != 0) {
             System.out.println("Erro ao cortar o papel. Código: " + retornoCorte);
             break; // se o corte falhou, para o loop
         }
 
         // pequena pausa para a impressora terminar de cortar antes da próxima cópia
-        // (se já funcionar sem isso, pode remover)
         try {
             Thread.sleep(500);
         } catch (InterruptedException e) {
